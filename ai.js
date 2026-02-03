@@ -1,3 +1,26 @@
+const HF_API_KEY = "PASTE_YOUR_FREE_HF_KEY";
+
+async function askAI() {
+  const question = document.getElementById("searchInput").value;
+
+  const response = await fetch(
+    "https://api-inference.huggingface.co/models/google/flan-t5-large",
+    {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${HF_API_KEY}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        inputs: `Explain and solve clearly: ${question}`
+      })
+    }
+  );
+
+  const data = await response.json();
+  document.getElementById("output").innerText =
+    data[0]?.generated_text || "No answer.";
+}
 async function askAI() {
   const question = document.getElementById("searchInput").value;
 
